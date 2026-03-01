@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belastingaangifte Checklist 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #154273;
+    --blue:   #007BC7;
+    --lblue:  #EBF3FA;
+    --lblue2: #D6E8F5;
+    --white:  #FFFFFF;
+    --text:   #1A1A1A;
+    --muted:  #5A6A7A;
+    --border: #C8D8E8;
+    --green:  #39870C;
+    --yellow: #F9C646;
+    --red:    #C0392B;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes checkPop {
+    0%   { transform: scale(0.2) rotate(-20deg); opacity: 0; }
+    65%  { transform: scale(1.25) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  @keyframes barGlow {
+    0%,100% { box-shadow: 0 0 0 rgba(0,123,199,0); }
+    50%     { box-shadow: 0 0 10px rgba(0,123,199,0.4); }
+  }
+  @keyframes confettiFly {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-120px) rotate(720deg); opacity: 0; }
+  }
+  @keyframes flagWave {
+    0%,100% { transform: rotate(0deg); }
+    25%     { transform: rotate(1.5deg); }
+    75%     { transform: rotate(-1.5deg); }
+  }
+  @keyframes scanLine {
+    from { top: 0; opacity: 0.06; }
+    to   { top: 100%; opacity: 0; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1),
+                transform 0.55s cubic-bezier(0.22,1,0.36,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  body {
+    background: #F4F7FB;
+    color: var(--text);
+    font-family: 'Source Sans 3', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* TOP STRIPE */
+  .topbar { background: var(--navy); height: 6px; width: 100%; animation: slideDown 0.4s ease both; }
+
+  /* HEADER */
+  .header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    animation: slideDown 0.5s 0.05s ease both;
+  }
+  .logo-block { display: flex; align-items: center; gap: 14px; }
+  .logo-bar {
+    width: 8px; height: 52px;
+    background: var(--navy); border-radius: 1px;
+    animation: flagWave 4s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+  .logo-text { font-size: 20px; font-weight: 700; color: var(--navy); }
+
+  /* HERO */
+  .hero {
+    background: var(--navy);
+    padding: 40px 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(0,123,199,0.3) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(249,198,70,0.4), transparent);
+    animation: scanLine 5s linear infinite;
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; z-index: 1; max-width: 900px; }
+  .hero-label {
+    display: inline-block;
+    background: var(--yellow); color: var(--navy);
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 2px; margin-bottom: 16px;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 4vw, 52px); font-weight: 700;
+    color: var(--white); line-height: 1.1; margin-bottom: 12px;
+    animation: fadeUp 0.5s 0.18s ease both;
+  }
+  .hero-sub {
+    font-size: 17px; color: rgba(255,255,255,0.8);
+    max-width: 560px; line-height: 1.5; margin-bottom: 28px;
+    animation: fadeUp 0.5s 0.26s ease both;
+  }
+  .deadlines {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    animation: fadeUp 0.5s 0.34s ease both;
+  }
+  .deadline-pill {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 4px; padding: 10px 18px;
+    display: flex; flex-direction: column; gap: 2px;
+    transition: background 0.2s, transform 0.2s;
+    backdrop-filter: blur(4px);
+  }
+  .deadline-pill:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+  .deadline-pill .date { font-size: 17px; font-weight: 700; color: var(--yellow); }
+  .deadline-pill .desc { font-size: 12px; color: rgba(255,255,255,0.75); max-width: 220px; line-height: 1.3; }
+
+  /* PROGRESS */
+  .progress-wrap {
+    background: var(--white); border-bottom: 1px solid var(--border);
+    padding: 20px 40px; display: flex; align-items: center; gap: 24px;
+  }
+  .progress-label-text { font-size: 14px; font-weight: 600; color: var(--navy); white-space: nowrap; }
+  .progress-bar-bg { flex: 1; height: 8px; background: var(--lblue2); border-radius: 4px; position: relative; overflow: visible; }
+  .progress-bar-fill {
+    height: 100%; background: linear-gradient(90deg, var(--blue), #39A8E8);
+    border-radius: 4px; width: 0%;
+    transition: width 0.5s cubic-bezier(0.22,1,0.36,1);
+    animation: barGlow 2.5s ease-in-out infinite; position: relative;
+  }
+  .progress-bar-fill::after {
+    content: ''; position: absolute; right: -5px; top: -4px;
+    width: 16px; height: 16px; background: var(--white);
+    border: 3px solid var(--blue); border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0,123,199,0.4);
+  }
+  .pct-label { font-size: 18px; font-weight: 700; color: var(--blue); min-width: 46px; text-align: right; }
+
+  /* COMPLETE BANNER */
+  .complete-banner {
+    display: none; background: #E8F5E9;
+    border-left: 4px solid var(--green);
+    padding: 16px 40px; font-size: 16px; font-weight: 600; color: var(--green);
+    animation: fadeUp 0.4s ease both;
+  }
+  .complete-banner.show { display: block; }
+
+  /* MAIN */
+  .main {
+    padding: 32px 40px 48px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 28px; max-width: 1100px; margin: 0 auto;
+  }
+  @media (max-width: 720px) {
+    .main { grid-template-columns: 1fr; padding: 20px; }
+    .hero { padding: 28px 20px 24px; }
+    .progress-wrap { padding: 16px 20px; flex-wrap: wrap; }
+    .header { padding: 14px 20px; }
+    .complete-banner { padding: 14px 20px; }
+  }
+
+  /* CARD */
+  .card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden; transition: box-shadow 0.25s;
+  }
+  .card:hover { box-shadow: 0 4px 16px rgba(21,66,115,0.1); }
+  .section-title {
+    background: var(--lblue); border-bottom: 2px solid var(--blue);
+    padding: 14px 20px; font-size: 15px; font-weight: 700; color: var(--navy);
+    display: flex; align-items: center; gap: 10px;
+    position: relative; overflow: hidden;
+  }
+  .section-title::after {
+    content: ''; position: absolute; left: -100%; top: 0; bottom: 0; width: 60%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    transition: left 0.5s ease;
+  }
+  .card:hover .section-title::after { left: 160%; }
+
+  /* ITEM */
+  .item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 14px 20px; border-bottom: 1px solid #EEF4FA;
+    cursor: pointer; transition: background 0.2s, padding-left 0.2s;
+    position: relative;
+  }
+  .item:last-child { border-bottom: none; }
+  .item::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--blue); transform: scaleY(0);
+    transition: transform 0.2s ease; border-radius: 0 2px 2px 0;
+  }
+  .item:hover::before { transform: scaleY(1); }
+  .item:hover { background: var(--lblue); padding-left: 24px; }
+  .checkbox {
+    min-width: 20px; height: 20px; border: 2px solid #A0B8CC;
+    border-radius: 3px; margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    background: var(--white);
+  }
+  .item:hover .checkbox { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,123,199,0.12); }
+  .item.checked .checkbox { background: var(--blue); border-color: var(--blue); box-shadow: 0 0 8px rgba(0,123,199,0.35); }
+  .checkmark { display: none; color: #fff; font-weight: 700; font-size: 12px; }
+  .item.checked .checkmark { display: block; animation: checkPop 0.3s cubic-bezier(0.34,1.56,0.64,1) both; }
+  .item.checked .item-title { text-decoration: line-through; color: var(--muted); }
+  .item.checked { background: #F0F7FF; }
+  .item-body { flex: 1; }
+  .item-title { font-weight: 600; font-size: 14px; color: var(--navy); margin-bottom: 2px; line-height: 1.35; transition: color 0.2s; }
+  .item-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .item-desc a { color: var(--blue); text-decoration: underline; }
+
+  /* CALLOUT */
+  .callout {
+    border-left: 3px solid #E6A817; background: #FFF8E6;
+    padding: 12px 20px; transition: background 0.2s;
+  }
+  .callout:hover { background: #FFF3D4; }
+  .callout.info { background: var(--lblue); border-left-color: var(--blue); }
+  .callout.info:hover { background: var(--lblue2); }
+  .callout.warning { background: #FFF0F0; border-left-color: var(--red); }
+  .callout.warning:hover { background: #FFE5E5; }
+  .callout.new { background: #F0FFF0; border-left-color: var(--green); }
+  .callout-title { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .callout p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* CONFETTI */
+  .cp { position: fixed; border-radius: 2px; pointer-events: none; animation: confettiFly 0.85s ease forwards; z-index: 9999; }
+
+  footer {
+    background: var(--navy); color: rgba(255,255,255,0.6);
+    text-align: center; padding: 20px 40px;
+    font-size: 12px; letter-spacing: 0.5px;
+  }
+  footer a { color: var(--yellow); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<div class="header">
+  <div class="logo-block">
+    <div class="logo-bar"></div>
+    <span style="font-size:26px;">⚜️</span>
+    <span class="logo-text">Belastingdienst</span>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Checklist 2025</div>
+    <h1>Ben jij klaar voor je<br>belastingaangifte?</h1>
+    <p class="hero-sub">Verzamel alle benodigde documenten voordat je begint. Mis geen enkele aftrekpost.<br><span style="font-size:14px;color:rgba(255,255,255,0.55);font-style:italic;">Gefactcheckt met informatie op <a href="https://www.belastingdienst.nl/" target="_blank" style="color:var(--yellow);text-decoration:underline;">belastingdienst.nl</a>. Raadpleeg altijd een professional. Onderstaande checklist is ter lering en vermaak.</span></p>
+    <div class="deadlines">
+      <div class="deadline-pill">
+        <span class="date">1 maart 2026</span>
+        <span class="desc">Aangifte beschikbaar via Mijn Belastingdienst</span>
+      </div>
+      <div class="deadline-pill">
+        <span class="date">1 mei 2026</span>
+        <span class="desc">Uiterste inleverdatum — vraag vóór deze datum uitstel aan</span>
+      </div>
+      <div class="deadline-pill">
+        <span class="date">1 september 2026</span>
+        <span class="desc">Uiterste datum bij verleend uitstel — let op: belastingrente geldt</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="progress-wrap reveal">
+  <span class="progress-label-text">Jouw voortgang</span>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" id="progress-fill"></div>
+  </div>
+  <span class="pct-label" id="pct-label">0%</span>
+</div>
+
+<div class="complete-banner" id="complete-banner">
+  ✅ Klaar! Alle documenten verzameld — je bent er helemaal klaar voor.
+</div>
+
+<div class="main">
+
+  <!-- COL 1 -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+
+    <div class="card reveal">
+      <div class="section-title">💼 Werk & Inkomen</div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Jaaropgave(n) werkgever of uitkeringsinstantie</div>
+          <div class="item-desc">Van elke werkgever of instantie (UWV, SVB). Controleer ook je digitale Berichtenbox — veel organisaties versturen tegenwoordig alleen nog digitaal.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Overige inkomsten</div>
+          <div class="item-desc">Denk aan freelance- of zzp-inkomsten, verhuurinkomsten, een persoonsgebonden budget (PGB) of inkomen uit het buitenland.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Reiskosten naar werk met openbaar vervoer (niet vergoed)</div>
+          <div class="item-desc">Alleen aftrekbaar als je met het openbaar vervoer reist én de werkgever de kosten niet volledig vergoedt. Reizen met de auto is niet aftrekbaar. Maximale reisaftrek in 2025: <strong>€ 2.609</strong>.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Partneralimentatie ontvangen of betaald</div>
+          <div class="item-desc">Betaalde partneralimentatie is aftrekbaar in box 1. Ontvangen partneralimentatie is belast inkomen. <strong>Kinderalimentatie telt niet mee: niet aftrekbaar en niet belast.</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <div class="section-title">🏠 Koophuis</div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">WOZ-beschikking met peildatum 1 januari 2024</div>
+          <div class="item-desc">Ontvangen begin 2025 van je gemeente. Dit is de juiste WOZ-waarde voor de aangifte over 2025. De waarde staat ook op de gecombineerde gemeentelijke aanslag.</div>
+        </div>
+      </div>
+      <div class="callout info">
+        <div class="callout-title">💡 WOZ kwijt?</div>
+        <p>Zoek op <a href="https://www.wozwaardeloket.nl" target="_blank">wozwaardeloket.nl</a> — vergelijk ook de waarde met je buren.</p>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Jaaroverzicht van je hypotheekverstrekker</div>
+          <div class="item-desc">Betaalde rente, aflossing en het resterende saldo. Vergeet ook de rente op een eventuele familielening niet — die is aftrekbaar als aan de voorwaarden is voldaan.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Overzicht kapitaalverzekering eigen woning</div>
+          <div class="item-desc">Alleen van toepassing bij een (bank)spaarhypotheek. Vraag het overzicht op bij je verzekeraar of bank.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Kosten nieuwe lening of verbouwing</div>
+          <div class="item-desc">Eenmalig aftrekbaar: notariskosten voor de hypotheek, taxatiekosten, afsluitprovisie en advies- en bemiddelingskosten. Let op: overdrachtsbelasting en kosten voor de woning zelf zijn <strong>niet</strong> aftrekbaar.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Bewijs van betaalde erfpachtcanon</div>
+          <div class="item-desc">Alleen van toepassing als je erfpacht betaalt. Vraag een jaaroverzicht op bij de erfverpachter.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <div class="section-title">📋 Aftrekposten</div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Facturen voor specifieke zorgkosten</div>
+          <div class="item-desc">Alleen aftrekbaar bij hoge zorgkosten én een laag inkomen. Zorgpremie en eigen risico tellen niet mee. Denk aan hulpmiddelen, dieetkosten op doktersadvies en vervoer naar een specialist.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Bewijzen van giften aan erkende goede doelen (ANBI)</div>
+          <div class="item-desc">Aftrekbaar voor zover het totaal boven 1% van je drempelinkomen uitkomt (minimaal € 60). Periodieke giften via een (notariële) akte zijn volledig aftrekbaar, zonder drempel.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Uniform Pensioenoverzicht (UPO) of bewijs van lijfrentepremies</div>
+          <div class="item-desc">Nodig als je lijfrentepremies of bankspaarstortingen hebt betaald voor aanvullend pensioen. Controleer je beschikbare jaarruimte via Mijn Belastingdienst.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Bewijs van betaalde AOV-premie (voor zzp'ers)</div>
+          <div class="item-desc">Alleen aftrekbaar als je de premie zelf betaalt. Premies die via de werkgever worden ingehouden, zijn niet aftrekbaar.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COL 2 -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+
+    <div class="card reveal">
+      <div class="section-title">📈 Beleggingen & Spaargeld (Box 3)</div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Jaaroverzicht van banken en beleggingsinstellingen</div>
+          <div class="item-desc">Saldo's op peildatum <strong>1 januari 2025</strong>, inclusief spaarrekeningen van minderjarige kinderen. Je hebt zowel de aan- als de verkoopwaarde van beleggingen nodig.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Gegevens over ontvangen dividend</div>
+          <div class="item-desc">Relevant als je aandelen of beleggingsfondsen bezit. Staat doorgaans op de jaaropgave van je broker, zoals DEGIRO, Saxo of eToro.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Cryptovaluta</div>
+          <div class="item-desc">De waarde van je cryptobezit op <strong>1 januari 2025</strong> valt in box 3. Exporteer een portefeuilleoverzicht met het saldo op die datum vanuit je exchange of wallet.</div>
+        </div>
+      </div>
+      <div class="callout new">
+        <div class="callout-title">🆕 Nieuw in 2025: werkelijk rendement</div>
+        <p>Heb je box 3-inkomen? Vanaf de aangifte over 2025 kun je kiezen om je <strong>werkelijke rendement</strong> door te geven. De Belastingdienst berekent automatisch welke methode — fictief of werkelijk — voor jou het voordeligst uitpakt.</p>
+      </div>
+      <div class="callout warning">
+        <div class="callout-title">⚠️ Box 3-rechtsherstel 2017–2024</div>
+        <p>Heb je eerder bezwaar gemaakt of ben je aangemeld voor rechtsherstel? Wacht dan op een brief van de Belastingdienst voordat je het formulier Opgaaf Werkelijk Rendement invult voor eerdere jaren.</p>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <div class="section-title">🔴 Schulden & Leningen</div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Overzicht van schulden (box 3)</div>
+          <div class="item-desc">Consumentenkrediet en persoonlijke leningen op 1 januari 2025.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Studieschuld bij DUO</div>
+          <div class="item-desc">
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;">
+              <li><strong>Drempelbedrag:</strong> In 2025 is een deel van de schuld pas aftrekbaar boven de drempel van € 3.800.</li>
+              <li><strong>Aftrekbaar vermogen:</strong> De gehele studieschuld (minus de drempel) wordt in mindering gebracht op uw totale vermogen (spaargeld, beleggingen), waardoor u minder belasting betaalt in box 3.</li>
+              <li><strong>Vóór 1 september 2015:</strong> Alleen aftrekbaar in box 3 vanaf het moment dat de prestatiebeurs definitief niet is omgezet in een gift.</li>
+              <li><strong>Vanaf 1 september 2015:</strong> Kan als schuld in box 3 worden opgegeven.</li>
+              <li><strong>Automatisch invullen:</strong> Vaak is de actuele schuld bij <strong>DUO</strong> al vooringevuld in de belastingaangifte.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Leningen van of aan familie of vrienden</div>
+          <div class="item-desc">Saldo en rente moeten door beide partijen worden opgegeven. In 2025 geldt een minimumrente van 2,46%. Wordt minder rente berekend, dan kan de Belastingdienst dit als schenking aanmerken.</div>
+        </div>
+      </div>
+      <div class="callout info">
+        <div class="callout-title">💡 Hoef je niet op te geven: vorderingen op langstlevende</div>
+        <p>Vorderingen die kinderen hebben op de langstlevende ouder na een wettelijke verdeling van de nalatenschap, hoeven niet als bezitting te worden opgegeven.</p>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <div class="section-title">🗂️ Overig & Inloggegevens</div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Aangifte van vorig jaar</div>
+          <div class="item-desc">Handig als voorbeeld en ter controle. Download het via Mijn Belastingdienst. Veel gegevens worden automatisch vooringevuld — controleer dit altijd zorgvuldig.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Inloggegevens DigiD</div>
+          <div class="item-desc">Gebruikersnaam, wachtwoord en de DigiD-app of sms-authenticatie. Fiscale partners moeten beiden afzonderlijk inloggen en ondertekenen met hun eigen DigiD.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">BSN (burgerservicenummer)</div>
+          <div class="item-desc">Van jezelf, je fiscale partner en kinderen jonger dan 18 jaar. Te vinden op je rijbewijs, paspoort of identiteitskaart.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Voorlopige aanslag 2025</div>
+          <div class="item-desc">Van toepassing als je in 2025 al inkomstenbelasting vooruit hebt betaald of een voorschot hebt ontvangen. Te vinden in je Berichtenbox of via Mijn Belastingdienst.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"><span class="checkmark">✓</span></div>
+        <div class="item-body">
+          <div class="item-title">Toeslagen controleren</div>
+          <div class="item-desc">Controleer via Mijn Toeslagen of je recht hebt op huurtoeslag, zorgtoeslag, kinderopvangtoeslag of kinderbijslag. Een verandering in je inkomen of gezinssituatie kan invloed hebben op je recht op toeslag.</div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<footer>
+  Gemaakt door <a href="https://www.instagram.com/studiocrypto.nl/" target="_blank">Shariff</a> i.s.m. <a href="https://claude.ai" target="_blank">Claude AI</a> · Info via <a href="https://www.belastingdienst.nl" target="_blank">belastingdienst.nl</a> · Belastingjaar 2025 · Geen officieel document van de Belastingdienst
+</footer>
+
+<script>
+  function toggle(el) {
+    el.classList.toggle('checked');
+    if (el.classList.contains('checked')) spawnConfetti(el);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const all  = document.querySelectorAll('.item');
+    const done = document.querySelectorAll('.item.checked');
+    const pct  = Math.round((done.length / all.length) * 100);
+    document.getElementById('pct-label').textContent = pct + '%';
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('complete-banner').classList.toggle('show', pct === 100);
+    if (pct === 100) bigConfetti();
+  }
+
+  function spawnConfetti(el) {
+    const rect = el.getBoundingClientRect();
+    const colors = ['#154273','#007BC7','#F9C646','#39870C','#fff'];
+    for (let i = 0; i < 8; i++) {
+      const p = document.createElement('div');
+      p.className = 'cp';
+      p.style.cssText = `left:${rect.left+rect.width/2+(Math.random()-.5)*60}px;top:${rect.top+rect.height/2}px;width:7px;height:7px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*.12}s;`;
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 950);
+    }
+  }
+
+  function bigConfetti() {
+    const colors = ['#154273','#007BC7','#F9C646','#39870C','#fff','#E6A817'];
+    for (let i = 0; i < 50; i++) {
+      setTimeout(() => {
+        const p = document.createElement('div');
+        p.className = 'cp';
+        p.style.cssText = `left:${Math.random()*window.innerWidth}px;top:${window.scrollY+window.innerHeight*.65}px;background:${colors[Math.floor(Math.random()*colors.length)]};width:${5+Math.random()*9}px;height:${5+Math.random()*9}px;`;
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 950);
+      }, i * 35);
+    }
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
